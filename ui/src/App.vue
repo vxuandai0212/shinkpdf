@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <upload style="text-align:center;" />
-    <!-- <loading/> -->
-    <!-- <detail/> -->
-    <!-- <compressing /> -->
-    <!-- <announce /> -->
+    <upload v-if="step === STEP.UPLOAD" style="text-align:center;" @upload="onUpload" />
+    <loading v-if="step === STEP.LOADING_FILE" />
+    <detail v-if="step === STEP.DETAIL_FILE" :name="name" :size="size" />
+    <compressing v-if="step === STEP.COMPRESSING" />
+    <announce v-if="step === STEP.FINISH" />
   </div>
 </template>
 
@@ -15,6 +15,15 @@ import Loading from './components/Loading.vue'
 import Detail from './components/Detail.vue'
 import Compressing from './components/Compressing.vue'
 import Announce from './components/Announce.vue'
+
+const STEP = {
+  UPLOAD: 1,
+  LOADING_FILE: 2,
+  DETAIL_FILE: 3,
+  COMPRESSING: 4,
+  FINISH: 5
+}
+
 @Component({
   components: {
     Upload,
@@ -24,7 +33,27 @@ import Announce from './components/Announce.vue'
     Announce
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  STEP = STEP
+  step = STEP.UPLOAD
+
+  name = ''
+  size = null
+  inputFilePath = ''
+  outputFilePath = ''
+
+  onUpload(value) {
+    this.step = STEP.LOADING_FILE
+    const { name, size, inputFilePath, outputFilePath } = value
+    this.name = name
+    this.size = size
+    this.inputFilePath = inputFilePath
+    this.outputFilePath = outputFilePath
+    setTimeout(() => {
+      this.step = STEP.DETAIL_FILE
+    }, 2000)
+  }
+}
 </script>
 
 <style>
@@ -34,5 +63,7 @@ export default class App extends Vue {}
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
+  width: 700px;
+  margin: auto;
 }
 </style>

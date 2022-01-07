@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <img style="position:absolute;width:250px" src="../assets/img/loading.gif" />
+  <div style="width:100%;text-align:center;">
+    <img style="height:200px;" src="../assets/img/loading.gif" />
   </div>
 </template>
 

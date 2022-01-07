@@ -2,38 +2,40 @@
   <div>
     <el-dialog
       v-if="error"
+      style="font-family: 'Roboto Slab'!important;"
       :visible.sync="visibleDialog"
-      width="30%"
+      width="300px"
       center
-      title="Thất bại"
+      title="Có lỗi xảy ra"
       :close-on-click-modal="false"
     >
-      <el-card shadow="never" style="width: 100%; text-align: center">
-        <div style="margin-bottom: 10px">Có lỗi xảy ra</div>
-        <div>
-          <el-button @click="visibleDialog = false">Đóng</el-button>
-        </div>
-      </el-card>
+      <div style="width: 100%; text-align: center">
+        <info-button style="width: 200px;margin:auto;padding: 20px 0px;" @click="visibleDialog = false">Đóng</info-button>
+      </div>
     </el-dialog>
     <el-dialog
       v-else
       :visible.sync="visibleDialog"
-      width="30%"
+      width="300px"
       center
+      style="font-family: 'Roboto Slab'!important;"
       title="Thành công"
       :close-on-click-modal="false"
     >
-      <el-card shadow="never" style="width: 100%; text-align: center">
-        <el-button type="primary" @click="showFile">Hiển thị trong thư mục</el-button>
-      </el-card>
+      <div style="width: 100%; text-align: center">
+        <primary-button style="width: 200px;margin:auto;padding: 20px 0px;" @click="showFile">Hiển thị trong thư mục</primary-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-
-@Component
+import InfoButton from './InfoButton.vue'
+import PrimaryButton from './PrimaryButton.vue'
+@Component({
+  components: { InfoButton, PrimaryButton }
+})
 export default class Loading extends Vue {
   error = false
   visibleDialog = true
@@ -45,8 +47,11 @@ export default class Loading extends Vue {
   }
 }
 </script>
-<style scoped>
+<style>
 el-dialog.el-dialog__body {
   text-align: center !important;
+}
+.el-dialog {
+  border-radius: 20px!important;
 }
 </style>
