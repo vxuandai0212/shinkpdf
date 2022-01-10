@@ -8,9 +8,10 @@
       center
       title="Có lỗi xảy ra"
       :close-on-click-modal="false"
+      @close="onCloseError"
     >
       <div style="width: 100%; text-align: center">
-        <info-button style="width: 200px;margin:auto;padding: 20px 0px;" @click="visibleDialog = false">Đóng</info-button>
+        <info-button style="width: 200px;margin:auto;padding: 20px 0px;" @click.native="visibleDialog = false">Đóng</info-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -21,30 +22,38 @@
       style="font-family: 'Roboto Slab'!important;"
       title="Thành công"
       :close-on-click-modal="false"
+      @close="onCloseSuccess"
     >
       <div style="width: 100%; text-align: center">
-        <primary-button style="width: 200px;margin:auto;padding: 20px 0px;" @click="showFile">Hiển thị trong thư mục</primary-button>
+        <primary-button style="width: 200px;margin:auto;padding: 20px 0px;" @click.native="showFile">Hiển thị trong thư mục</primary-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import InfoButton from './InfoButton.vue'
 import PrimaryButton from './PrimaryButton.vue'
+import { Command } from '@tauri-apps/api/shell'
 @Component({
   components: { InfoButton, PrimaryButton }
 })
 export default class Loading extends Vue {
-  error = false
+  @Prop() error!: boolean
+  @Prop() outputFilePath!: string
+
   visibleDialog = true
 
-  showFile() {
+  async showFile() {
     this.visibleDialog = false
-    const file = 'D:\\tmp\\learn\\shrink\\ui\\src\\assets\\img\\upload.png'
-    window.open('file://' + file)
+    const cmd = `/select,${this.outputFilePath}`
+    const output = await new Command('explorer', cmd).execute()
   }
+
+  onCloseError() { this.$emit('finish') }
+
+  onCloseSuccess() { this.$emit('finish') }
 }
 </script>
 <style>

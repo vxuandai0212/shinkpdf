@@ -9,3 +9,8 @@ export function formatBytes(bytes: any, decimals = 2) {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
 }
+
+export function validFilename(filename: string) {
+  const regex = /^[A-Za-z0-9_\-]*[A-Za-z0-9][A-Za-z0-9_\-\.]*$/
+  return regex.test(filename)
+}
