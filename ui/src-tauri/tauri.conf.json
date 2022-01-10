@@ -21,7 +21,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "resources": ["./resources/java"],
+      "resources": ["./resources/java", "./resources/app.jar"],
       "externalBin": [],
       "copyright": "",
       "category": "DeveloperTool",

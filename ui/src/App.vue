@@ -83,7 +83,7 @@ export default class App extends Vue {
 
     this.step = STEP.COMPRESSING
     setTimeout(async() => {
-      const output = await new Command('./resources/java/bin/java.exe', ['-jar', 'E:\\Project\\app.jar', this.imageQuality.toString(), inputFilePath, outputFilePath]).execute()
+      const output = await new Command('./resources/java/bin/java.exe', ['-jar', './resources/app.jar', this.imageQuality.toString(), inputFilePath, outputFilePath]).execute()
       const { code } = output
       console.log(output)
       if (code === 2000) {
